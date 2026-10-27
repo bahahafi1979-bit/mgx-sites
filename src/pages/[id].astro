@@ -8,6 +8,7 @@ const description = site.description || 'مرحباً بكم في موقعنا �
 const language = site.language || 'ar';
 const direction = ['ar', 'fa', 'ur', 'he'].includes(language) ? 'rtl' : 'ltr';
 const images = Array.isArray(site.images) ? site.images : [];const content = (site.content || '').replaceAll('**', '').replaceAll('*', '');
+const t = String(site.type || '').toLowerCase(); const color = [['restaurant|food|مطعم|essen|imbiss|café|cafe|كافيه|قهوة|restoran','#8b2e16'],['friseur|hair|حلاق|صالون|barber|beauty|تجميل|kuaför','#6b2d5c'],['auto|car|سيارات|kfz|werkstatt|oto','#1f3a5f'],['bäck|bakery|مخبز|حلويات|fırın','#a0642b'],['shop|markt|supermarket|سوبر|بقالة|laden|market','#1d6b45']].find(([k]) => new RegExp(k).test(t))?.[1] || '#14283f';
 ---
 
 <!doctype html>
@@ -17,10 +18,10 @@ const images = Array.isArray(site.images) ? site.images : [];const content = (si
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{name}</title>
-    <style>
+   <style define:vars={{ color }}>
       :root { font-family: system-ui, sans-serif; color: #182433; background: #f7f9fc; }
       body { margin: 0; }
-      header { background: #14283f; color: white; padding: 4rem 1.5rem; text-align: center; }
+      header { background:var(--color); color: white; padding: 4rem 1.5rem; text-align: center; }
       main { max-width: 1000px; margin: auto; padding: 2rem 1.5rem; }
      section { margin-bottom: 2.5rem; white-space: pre-wrap; }
       h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
