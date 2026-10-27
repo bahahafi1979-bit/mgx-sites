@@ -1,0 +1,1 @@
+MGX AI - GitHub Connection Test Project: MGX AI Status: Testing n8n to GitHub connection Purpose: Verify automatic file creation

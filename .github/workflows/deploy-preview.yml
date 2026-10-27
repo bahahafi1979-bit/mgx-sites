@@ -1,0 +1,82 @@
+name: MGX AI - Deploy Protected Preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      request_id:
+        description: Approved MGX request ID
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  group: mgx-preview-${{ inputs.request_id }}
+  cancel-in-progress: false
+
+jobs:
+  private-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate request ID and choose client branch
+        id: request
+        shell: bash
+        env:
+          REQUEST_ID: ${{ inputs.request_id }}
+        run: |
+          if [[ ! "$REQUEST_ID" =~ ^MGX-[0-9]{8}-[0-9]+$ ]]; then
+            echo 'Invalid MGX request ID' >&2
+            exit 1
+          fi
+          echo "branch=client/${REQUEST_ID,,}" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout approved request branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.request.outputs.branch }}
+          persist-credentials: false
+
+      - name: Validate private preview data
+        shell: bash
+        env:
+          REQUEST_ID: ${{ inputs.request_id }}
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const data = JSON.parse(fs.readFileSync('data/site.json', 'utf8'));
+          const requestId = process.env.REQUEST_ID;
+          const name = data.shopName || data.site?.name;
+
+          if (data.requestId !== requestId) throw Error('Request ID mismatch');
+          if (data.preview !== true || data.noindex !== true) {
+            throw Error('Only private, noindex previews can be deployed');
+          }
+          if (!name || !data.compliance || data.compliance.verdict === 'rejected') {
+            throw Error('Missing business information or compliance rejected');
+          }
+
+          data.status = 'draft';
+          if (data.site && typeof data.site === 'object') data.site.status = 'draft';
+          fs.writeFileSync('data/site.json', JSON.stringify(data, null, 2));
+          NODE
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Build Astro preview
+        run: npm run build
+
+      - name: Deploy to protected Cloudflare Pages preview branch
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 1f2d7d3fb2c9932dd6a2e0f4b9fb30fc
+          command: pages deploy dist --project-name=mgx-ai-preview-127 --branch=${{ steps.request.outputs.branch }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

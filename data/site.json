@@ -1,0 +1,16 @@
+{
+  "project": "MGX AI",
+  "version": "1.0",
+  "site": {
+    "name": "مخبز MGX التجريبي",
+    "description": "موقع تجريبي لاختبار نظام MGX AI لإنشاء المواقع الإلكترونية.",
+    "businessType": "food",
+    "country": "المغرب",
+    "language": "ar",
+    "currency": "MAD",
+    "phone": "",
+    "address": "الدار البيضاء، المغرب - عنوان تجريبي",
+    "images": []
+  },
+  "status": "draft"
+}
