@@ -1,0 +1,14 @@
+{
+  "site": {
+    "name": "abc",
+    "type": "abc",
+    "phone": "012",
+    "address": "abc",
+    "language": "de",
+    "currency": "EUR",
+    "content": "Willkommen bei abc, Ihrem zuverlässigen Partner für abc direkt hier in Deutschland. Wir freuen uns, dass Sie den Weg zu uns gefunden haben, und laden Sie ein, in unsere Welt einzutauchen, in der Qualität, Leidenschaft und Ihre Zufriedenheit immer an erster Stelle stehen. Unser Ziel ist es, Ihnen erstklassige Lösungen zu bieten, die perfekt auf Ihre individuellen Bedürfnisse zugeschnitten sind.\n\nHinter abc steht ein engagiertes Team, das eine tiefe Begeisterung für abc teilt. Wir glauben fest daran, dass exzellenter Service und hochwertige Produkte den entscheidenden Unterschied in Ihrem Alltag machen. Deshalb wählen wir jedes Detail unseres Angebots mit größter Sorgfalt aus, um sicherzustellen, dass Sie genau das erhalten, was Sie verdienen: nur das Beste.\n\nFür uns sind Sie nicht einfach nur ein Kunde, sondern der Mittelpunkt unseres Handelns. Wir legen großen Wert auf eine ehrliche Beratung und eine vertrauensvolle Beziehung. Unser Anspruch ist es, Ihre Erwartungen nicht nur zu erfüllen, sondern sie jedes Mal aufs Neue zu übertreffen und Ihnen ein Erlebnis zu bieten, das durch Kompetenz und Herzlichkeit besticht.\n\nEntdecken Sie die Vielfalt von abc und lassen Sie sich von unserer Qualität überzeugen. Wir arbeiten kontinuierlich daran, uns für Sie weiterzuentwickeln und neue Maßstäbe zu setzen. Wir freuen uns darauf, Sie als Teil unserer stetig wachsenden Gemeinschaft begrüßen zu dürfen und gemeinsam mit Ihnen Ihre Wünsche zu verwirklichen.",
+    "images": [
+      "https://drive.google.com/thumbnail?id=1pzwZqTB1gh3bI-Ql3V5SzKMKnlMYEAcp&sz=w1200"
+    ]
+  }
+}
