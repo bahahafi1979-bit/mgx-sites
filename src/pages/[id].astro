@@ -1,5 +1,6 @@
 ---
-import siteData from '../../data/site.json';
+export async function getStaticPaths() { const files = import.meta.glob('../../data/sites/*.json', { eager: true }); return Object.entries(files).map(([p, m]) => ({ params: { id: p.split('/').pop().replace('.json', '') }, props: { siteData: m.default } })); }
+const { siteData } = Astro.props;
 
 const site = siteData.site;
 const name = site.name || 'اسم المحل';
