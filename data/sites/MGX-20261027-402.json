@@ -1,0 +1,14 @@
+{
+  "site": {
+    "name": "BAHA BÄCKEREI",
+    "type": "bäckerei",
+    "phone": "0176666219262",
+    "address": "Waiblinger Straße 30, 70372 stuttgart",
+    "language": "de",
+    "currency": "EUR",
+    "content": "Willkommen bei der BAHA BÄCKEREI, wo Ihr Tag mit dem unverwechselbaren Duft von ofenfrischem Brot beginnt. Wir verstehen uns als Ihre erste Adresse für erstklassige Backwaren im Herzen von Stuttgart und setzen alles daran, Ihnen jeden Morgen ein Lächeln ins Gesicht zu zaubern. Für uns ist Backen nicht nur ein Handwerk, sondern eine Leidenschaft, die wir täglich mit Hingabe für Sie ausüben.\n\nBei uns erwartet Sie echte Qualität, die man schmecken kann. Alle unsere Brote und Brötchen werden mit viel Liebe hausgemacht und nach traditionellen Werten sorgfältig zubereitet. Wir legen großen Wert auf Frische und Natürlichkeit, damit Sie stets das beste Aroma und die perfekte Kruste genießen können – genau so, wie gutes Brot sein sollte.\n\nIhre Zufriedenheit ist unser täglicher Antrieb. Ob für das gemütliche Frühstück mit der Familie oder den frischen Proviant für Ihren Arbeitstag, wir laden Sie herzlich ein, die Vielfalt unserer backfrischen Spezialitäten zu entdecken. Erleben Sie den Unterschied von Backwaren, die noch mit echter Handarbeit gefertigt werden, und lassen Sie sich von unserem herzlichen Service begeistern.",
+    "images": [
+      "https://drive.google.com/thumbnail?id=1LhDv4lnzYSwZxpYlzTwfwWe11WJh_1jX&sz=w1200"
+    ]
+  }
+}
