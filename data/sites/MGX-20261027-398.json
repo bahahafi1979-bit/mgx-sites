@@ -1,0 +1,14 @@
+{
+  "site": {
+    "name": "A",
+    "type": "A",
+    "phone": "015",
+    "address": "A",
+    "language": "de",
+    "currency": "EUR",
+    "content": "Herzlich willkommen bei A, Ihrem engagierten Spezialisten für A in Deutschland. Wir haben es uns zur Aufgabe gemacht, Ihnen höchste Qualität und exzellenten Service zu bieten, der genau auf Ihre Bedürfnisse zugeschnitten ist, damit Sie sich bei uns jederzeit bestens aufgehoben fühlen.\n\nWir bei A sind davon überzeugt, dass Ihre Zufriedenheit der Maßstab für unseren Erfolg ist. Deshalb setzen wir auf eine Kombination aus fachlicher Expertise und einer persönlichen Note, um Ihnen Lösungen zu präsentieren, die nicht nur funktional sind, sondern Sie auch nachhaltig begeistern werden.\n\nUnser Team arbeitet jeden Tag mit großer Leidenschaft daran, die Standards in unserem Bereich A stetig zu heben und Ihnen ein Einkaufserlebnis zu bieten, das von Vertrauen und Zuverlässigkeit geprägt ist. Wir schätzen den direkten Austausch mit Ihnen und nehmen uns die Zeit, um Ihre Erwartungen nicht nur zu erfüllen, sondern zu übertreffen.\n\nLassen Sie sich von unserer Auswahl und unserem Engagement überzeugen und werden Sie Teil unserer wachsenden Gemeinschaft zufriedener Kunden. Wir freuen uns darauf, Sie auf Ihrem Weg zu begleiten und Ihnen mit Rat und Tat zur Seite zu stehen, wann immer Sie unsere Unterstützung benötigen.",
+    "images": [
+      "https://drive.google.com/thumbnail?id=1csoSgYopohtDQjEHL5ONJr66lr8n-ia7&sz=w1200"
+    ]
+  }
+}
