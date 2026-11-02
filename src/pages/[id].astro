@@ -9,6 +9,8 @@ const language = site.language || 'ar';
 const direction = ['ar', 'fa', 'ur', 'he'].includes(language) ? 'rtl' : 'ltr';
 const images = Array.isArray(site.images) ? site.images : [];const content = (site.content || '').replaceAll('**', '').replaceAll('*', '');
 const t = String(site.type || '').toLowerCase(); const color = [['restaurant|food|مطعم|essen|imbiss|café|cafe|كافيه|قهوة|restoran','#8b2e16'],['friseur|hair|حلاق|صالون|barber|beauty|تجميل|kuaför','#6b2d5c'],['auto|car|سيارات|kfz|werkstatt|oto','#1f3a5f'],['bäck|bakery|مخبز|حلويات|fırın','#a0642b'],['shop|markt|supermarket|سوبر|بقالة|laden|market','#1d6b45']].find(([k]) => new RegExp(k).test(t))?.[1] || '#14283f';
+const waDigits = (() => { const d = String(site.phone || '').replace(/\D/g, ''); const cc = ({MAD:'212',EUR:'49',JOD:'962',SAR:'966',AED:'971',EGP:'20',TRY:'90'})[site.currency] || '212'; return d.startsWith('00') ? d.slice(2) : d.startsWith('0') ? cc + d.slice(1) : d; })();
+const waHref = site.whatsapp || (waDigits ? 'https://wa.me/' + waDigits : '');
 ---
 
 <!doctype html>
@@ -51,11 +53,12 @@ const t = String(site.type || '').toLowerCase(); const color = [['restaurant|foo
       )}
       <section>
         <h2>{language === 'ar' ? 'تواصل معنا' : ({de:'Kontakt',tr:'İletişim'}[language] || 'Contact')}</h2>
-       {site.phone && <p><a href={'tel:' + site.phone} style="display:inline-block;padding:1rem 2rem;margin:.5rem;background:#14283f;color:#fff;border-radius:12px;text-decoration:none;font-size:1.2rem">📞 {site.phone}</a><a href={'https://wa.me/' + (() => { const d = String(site.phone).replace(/\D/g, ''); const cc = {EUR:'49',JOD:'962',SAR:'966',AED:'971',EGP:'20',TRY:'90'}[site.currency] || '49'; return d.startsWith('00') ? d.slice(2) : d.startsWith('0') ? cc + d.slice(1) : d; })()} style="display:inline-block;padding:1rem 2rem;margin:.5rem;background:#25D366;color:#fff;border-radius:12px;text-decoration:none;font-size:1.2rem">WhatsApp</a></p>}
+       {site.phone && <p><a href={'tel:' + site.phone} style="display:inline-block;padding:1rem 2rem;margin:.5rem;background:#14283f;color:#fff;border-radius:12px;text-decoration:none;font-size:1.2rem">📞 {site.phone}</a><a href={waHref || 'https://wa.me/' + (() => { const d = String(site.phone).replace(/\D/g, ''); const cc = {MAD:'212',EUR:'49',JOD:'962',SAR:'966',AED:'971',EGP:'20',TRY:'90'}[site.currency] || '49'; return d.startsWith('00') ? d.slice(2) : d.startsWith('0') ? cc + d.slice(1) : d; })()} style="display:inline-block;padding:1rem 2rem;margin:.5rem;background:#25D366;color:#fff;border-radius:12px;text-decoration:none;font-size:1.2rem">WhatsApp</a></p>}
         {site.address && <p>{site.address}</p>}
 {site.address && <iframe src={'https://www.google.com/maps?q=' + encodeURIComponent(site.address) + '&hl=' + language + '&output=embed'} style="width:100%;height:300px;border:0;border-radius:12px;margin-top:1rem" loading="lazy"></iframe>}
       </section>
     </main>
     <footer>© {new Date().getFullYear()} {name}</footer>
+  {waHref && <a href={waHref} target="_blank" rel="noopener" aria-label="WhatsApp" style="position:fixed;bottom:20px;inset-inline-end:20px;width:60px;height:60px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.25);z-index:999">💬</a>}
   </body>
 </html>
