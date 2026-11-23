@@ -15,6 +15,22 @@ const waHref = site.whatsapp || (waDigits ? 'https://wa.me/' + waDigits : '');
 const ldType = ([['مطعم|restaurant|food|imbiss|restoran','Restaurant'],['مقهى|كافيه|قهوة|café|cafe|coffee','CafeOrCoffeeShop'],['حلويات|مخبز|فطائر|bakery|bäck|pâtisserie|patisserie|fırın','Bakery'],['حلاق|barber|friseur','HairSalon'],['سيارات|كراج|ورشة|garage|auto|kfz|werkstatt|mécanique','AutoRepair'],['محل|متجر|بقالة|سوبر|shop|store|magasin|laden|markt','Store']].find(([k]) => new RegExp(k, 'i').test(String(site.type || ''))) || [, 'LocalBusiness'])[1];
 const ldCity = site.address ? String(site.address).split(/[،,]/).pop().trim() : '';
 const ldImages = images.filter((u) => /^https?:\/\//i.test(String(u)));
+// Opening hours: shown as written; put in the schema only when clearly one daily range (e.g. "يوميًا من 9:00 إلى 22:00").
+const hoursText = String(site.hours || '').trim();
+const hoursLabel = ({ ar: 'ساعات العمل', fr: 'Horaires', de: 'Öffnungszeiten', tr: 'Çalışma saatleri' })[language] || 'Opening hours';
+const ldHours = (() => {
+  const h = hoursText.replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+  if (!h || !/يومي|كل يوم|كل الأيام|طول الأسبوع|daily|every day|tous les jours|täglich/i.test(h) || /مغلق|مسكر|عطلة|closed|fermé|geschlossen|ruhetag/i.test(h)) return [];
+  const re = /(\d{1,2})(?:[:h.](\d{2}))?\s*(?:[^\d\s]{0,12}\s*)?(?:-|–|إلى|الى|حتى|لـ|à|bis|to)\s*(\d{1,2})(?:[:h.](\d{2}))?/gi;
+  const m = [...h.matchAll(re)];
+  if (m.length !== 1) return [];
+  let [, oh, om = '00', ch, cm = '00'] = m[0];
+  oh = +oh; ch = +ch;
+  if (/مساء|ليل|pm|soir|abends/i.test(h) && ch < 12) ch += 12;
+  if (oh > 23 || ch > 24 || +om > 59 || +cm > 59) return [];
+  const t = (x, y) => String(x).padStart(2, '0') + ':' + y;
+  return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((d) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: d, opens: t(oh, om), closes: t(ch % 24, cm) }));
+})();
 const ldJson = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': ldType,
@@ -23,6 +39,7 @@ const ldJson = JSON.stringify({
   telephone: waDigits.length >= 9 ? '+' + waDigits : undefined,
   address: site.address ? { '@type': 'PostalAddress', streetAddress: site.address, addressLocality: ldCity || undefined, addressCountry: (site.currency || 'MAD') === 'MAD' ? 'MA' : undefined } : undefined,
   hasMap: site.address ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(site.address) : undefined,
+  openingHoursSpecification: ldHours.length ? ldHours : undefined,
   image: ldImages.length ? ldImages.slice(0, 5) : undefined,
   currenciesAccepted: site.currency || undefined,
 }).replace(/</g, '\\u003c');
@@ -71,6 +88,7 @@ const ldJson = JSON.stringify({
         <h2>{language === 'ar' ? 'تواصل معنا' : ({de:'Kontakt',tr:'İletişim'}[language] || 'Contact')}</h2>
        {site.phone && <p><a href={'tel:' + site.phone} style="display:inline-block;padding:1rem 2rem;margin:.5rem;background:#14283f;color:#fff;border-radius:12px;text-decoration:none;font-size:1.2rem">📞 {site.phone}</a><a href={waHref || 'https://wa.me/' + (() => { const d = String(site.phone).replace(/\D/g, ''); const cc = {MAD:'212',EUR:'49',JOD:'962',SAR:'966',AED:'971',EGP:'20',TRY:'90'}[site.currency] || '49'; return d.startsWith('00') ? d.slice(2) : d.startsWith('0') ? cc + d.slice(1) : d; })()} style="display:inline-block;padding:1rem 2rem;margin:.5rem;background:#25D366;color:#fff;border-radius:12px;text-decoration:none;font-size:1.2rem">WhatsApp</a></p>}
         {site.address && <p>{site.address}</p>}
+        {hoursText && <p>🕒 {hoursLabel}: {hoursText}</p>}
 {site.address && <iframe src={'https://www.google.com/maps?q=' + encodeURIComponent(site.address) + '&hl=' + language + '&output=embed'} style="width:100%;height:300px;border:0;border-radius:12px;margin-top:1rem" loading="lazy"></iframe>}
       </section>
     </main>
